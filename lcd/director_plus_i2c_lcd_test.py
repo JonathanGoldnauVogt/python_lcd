@@ -1,17 +1,20 @@
-"""Implements a HD44780 character LCD connected via MCP23008 on I2C."""
+"""Implements a HD44780 character LCD connected via PCF8574 on I2C."""
+
+# The following import was needed on my OpenMV board
+from lcd_api import LcdApi
 
 from pyb import I2C, delay, millis
-from pyb_i2c_adafruit_lcd import I2cLcd
+from director_plus_i2c_lcd import I2cLcd
 
-# The MCP23008 has a jumper selectable address: 0x20 - 0x27
-DEFAULT_I2C_ADDR = 0x20
+# The PCF8574 has a jumper selectable address: 0x20 - 0x27
+DEFAULT_I2C_ADDR = 0x27
 
 def test_main():
     """Test function for verifying basic functionality."""
     print("Running test_main")
     i2c = I2C(1, I2C.MASTER)
-    lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 4, 20)
-    lcd.putstr("It Works!\nSecond Line\nThird Line\nFourth Line")
+    lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)
+    lcd.putstr("It Works!\nSecond Line")
     delay(3000)
     lcd.clear()
     count = 0
